@@ -39,6 +39,16 @@ void setIO(string s) {
 int main() {
     nonme;
     //setIO("cownomics");
+    int t;
+    cin >> t;
+    while(t--) {
+        int n;
+        cin >> n;
+        vector<ll> a (n);
+        FOR(i, 0, n) {
+            cin >> a[i];
+        }
 
+    }
     return 0;
 }

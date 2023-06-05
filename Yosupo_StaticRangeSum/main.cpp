@@ -1,21 +1,14 @@
-//#pragma GCC optimize("O3","unroll-loops")
-//#pragma GCC target ("avx2")
-
 #include <bits/stdc++.h>
 
 #define fendl "\n"
-#define sz(x) (int) size(x)
+#define sz(x) (int)(x).size()
 
 #define ll long long
-#define pll pair<long, long>
-#define vll vector<long long>
-
 #define um unordered_map
 
 #define debug(v) cout << "Line(" << __LINE__ << ") -> " << #v << " = " << (v) << endl;
-
-#define FOR(i, start, end) for(int i = start; i < end; ++i)
-#define FORd(i, start, end) for(int i = start; i >= end; --i)
+#define fori(start, end) for(int i = start; i < end; ++i)
+#define forj(start, end) for(int j = start; j < end; ++j)
 
 #define nonme ios::sync_with_stdio(false); cin.tie(nullptr);
 
@@ -39,6 +32,22 @@ void setIO(string s) {
 int main() {
     nonme;
     //setIO("cownomics");
+    int n, q;
+    cin >> n >> q;
+    vector<ll> a (n);
+    vector<ll> sums (n, 0);
+    fori(0, n) cin >> a[i];
+    fori(0, n) {
+        if (i == 0) sums[i] = a[i];
+        else sums[i] = sums[i - 1] + a[i];
+    }
+    while(q--) {
+        int l, r;
+        cin >> l >> r;
 
+        const ll left = (l != 0 ? sums[l - 1] : 0);
+        const ll right = (r != 0 ? sums[r - 1] : 0);
+        cout << right - left << fendl;
+    }
     return 0;
 }

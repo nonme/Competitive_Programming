@@ -40,5 +40,20 @@ int main() {
     nonme;
     //setIO("cownomics");
 
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<ll> a (n);
+        ll maxN = 0;
+        ll minN = 1e10;
+        FOR(i, 0, n) {
+            cin >> a[i];
+            maxN = max(maxN, a[i]);
+            minN = min(minN, a[i]);
+        }
+        cout << (minN < 0 ? minN : maxN) << fendl;
+    }
     return 0;
 }

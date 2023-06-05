@@ -7,15 +7,12 @@
 #define sz(x) (int) size(x)
 
 #define ll long long
-#define pll pair<long, long>
 #define vll vector<long long>
-
 #define um unordered_map
 
 #define debug(v) cout << "Line(" << __LINE__ << ") -> " << #v << " = " << (v) << endl;
-
-#define FOR(i, start, end) for(int i = start; i < end; ++i)
-#define FORd(i, start, end) for(int i = start; i >= end; --i)
+#define fori(start, end) for(int i = start; i < end; ++i)
+#define forj(start, end) for(int j = start; j < end; ++j)
 
 #define nonme ios::sync_with_stdio(false); cin.tie(nullptr);
 
@@ -39,6 +36,21 @@ void setIO(string s) {
 int main() {
     nonme;
     //setIO("cownomics");
+    int t;
+    cin >> t;
 
+    while (t--) {
+        int n, k;
+        cin >> n >> k;
+
+        int result = 0;
+        int last_index = 0;
+        for (int i = 0; i < n; i+=k) {
+            result++;
+            last_index = i;
+        }
+        if ((n - 1) - last_index > 0) result++;
+        cout << result << fendl;
+    }
     return 0;
 }

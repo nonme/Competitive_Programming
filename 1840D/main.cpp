@@ -47,63 +47,50 @@ int main() {
         vector<int> a (n);
         FOR(i, 0, n) cin >> a[i];
         sort (a.begin(), a.end());
-        int a_size = a.size();
 
-        int l_bound = 0;
-        int l_min = 99999999;
+        int l = 0, r = a.back();
+        while (r - l > 1) {
+            int m = (r + l) / 2;
+            //debug(m);
+            int prefix_score = 0;
+            int suffix_score = 0;
+            int mid_score = 0;
 
-        for (int i = 1; i <= a[a_size - 1]; ++i) {
-            int res = 0;
-            for (int j = 0; j < n; ++j) {
-                res += abs(a[j] - i);
+            int i = 0;
+            while (i < n && prefix_score < m) {
+                prefix_score = abs((a[i] - a[0] + 1) / 2);
+                if (prefix_score < m) i++;
             }
-            debug(i);
-            debug(res);
-            if (res < l_min) {
-                l_bound = i;
-                l_min = res;
+            //debug(i);
+            //debug(prefix_score);
+            if (i == n) {
+                r = m;
+                continue;
             }
-        }
-        int f_value = (l_bound + a[0]) / 2;
-        debug(f_value);
-
-        int r_bound = 0;
-        int r_min = 99999999;
-        for (int i = 1; i <= a[a_size - 1]; ++i) {
-            int res = 0;
-            for (int j = 0; j < n; ++j) {
-                res += min(abs(a[j] - f_value), abs(a[j] - i));
+            int j = n - 1;
+            while (j > i && suffix_score < m) {
+                suffix_score = abs((a[n - 1] - a[j] + 1) / 2);
+                if (suffix_score < m) j--;
             }
-            if (res < r_min) {
-                r_bound = i;
-                r_min = res;
+            //debug(j);
+            //debug(suffix_score);
+            if (j == i) {
+                r = m;
+                continue;
             }
-        }
-        int s_value = (r_bound + a[a_size - 1]) / 2;
-
-        int f_index = 0, s_index = 0;
-        FOR(i, 0, n) {
-            if (a[i] == f_value) {
-                f_index = i;
+            for (int c = i; c <= j; ++c) {
+                mid_score = max(mid_score, abs((a[j] - a[c] + 1) / 2));
             }
-            if (a[i] == s_value) {
-                s_index = i;
-                break;
+            //debug(mid_score);
+            if (mid_score >= m) {
+                l = m;
+            } else {
+                r = m;
             }
         }
-        int answer = 0;
-        FOR(i, 0, f_index + 1) {
-            answer = max(answer, abs(f_value - a[i]));
-        }
-        int m_value = (a[f_index + 1] + a[s_index - 1]) / 2;
-        FOR(i, 0, f_index + 1) {
-            answer = max(answer, abs(m_value - a[i]));
-        }
-        FOR(i, s_index, n) {
-            answer = max(answer, abs(s_value - a[i]));
-        }
-        cout << answer << fendl;
+        cout << l << fendl;
     }
     return 0;
 }
-//9 14 19 37 59 1 4 4 98 73
+// 9 14 19 37 59 1 4 4 98 73
+// 11 17 19 12 12 3 9 17 12 4 14 3

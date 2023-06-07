@@ -5,6 +5,7 @@
 
 #define fendl "\n"
 #define sz(x) (int) size(x)
+#define all(v) v.begin(), v.end()
 
 #define ll long long
 #define pll pair<long, long>
@@ -36,9 +37,41 @@ void setIO(string s) {
 
 // ----------- ACTUAL PROGRAM START -----------
 
+template <typename T>
+T binSearch(const vector<T>& v, T val, bool leftSearch = true) {
+    T l = -1, r = v.size();
+    while (r - l > 1) {
+        T mid = (r + l) / 2;
+
+        if (leftSearch) {
+            if (v[mid] >= val) r = mid;
+            else l = mid;
+        } else {
+            if (v[mid] > val) r = mid;
+            else l = mid;
+        }
+    }
+
+    return l;
+}
+
 int main() {
     nonme;
     //setIO("cownomics");
+    int n;
+    cin >> n;
+    vll a (n);
+    foru(i, 0, n) cin >> a[i];
+    sort(all(a));
+    int k;
+    cin >> k;
+    while (k--) {
+        int f, t;
+        cin >> f >> t;
+        ll l = binSearch<ll>(a, f);
+        ll r = binSearch<ll>(a, t, false);
 
+        cout << (r == l ? 0 : r - l  )<< " ";
+    }
     return 0;
 }

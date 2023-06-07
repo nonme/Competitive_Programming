@@ -39,6 +39,21 @@ void setIO(string s) {
 int main() {
     nonme;
     //setIO("cownomics");
+    int n, k;
+    cin >> n >> k;
+    vll a(n);
+    foru(i, 0, n) cin >> a[i];
+    while(k--) {
+        int q;
+        cin >> q;
 
+        int l = 0, r = n;
+        while (r - l > 1) {
+            int m = (r + l) / 2;
+            if (a[m] > q) r = m;
+            else l = m;
+        }
+        cout << (a[l] <= q ? l + 1 : 0) << fendl;
+    }
     return 0;
 }

@@ -5,12 +5,10 @@
 
 #define fendl "\n"
 #define sz(x) (int) size(x)
-#define all(v) v.begin(), v.end()
 
 #define ll long long
 #define pll pair<long, long>
 #define vll vector<long long>
-#define vpll vector<pair<long long, long long> >
 
 #define um unordered_map
 
@@ -18,12 +16,6 @@
 
 #define forup(i, start, end) for(int i = start; i < end; ++i)
 #define ford(i, start, end) for(int i = start; i >= end; --i)
-
-#define fori(start, end) for(int i = start; i < end; ++i)
-#define forj(start, end) for(int j = start; j < end; ++i)
-#define forc(start, end) for(int c = start; c < end; ++c)
-
-#define tests int TEST_COUNT_; cin >> TEST_COUNT_; while(TEST_COUNT_--)
 
 #define nonme ios::sync_with_stdio(false); cin.tie(nullptr);
 
@@ -42,15 +34,17 @@ void setIO(string s) {
     freopen((s + ".out").c_str(), "w", stdout);
 }
 
-// sorts to (1, 3) -> (1, 4) -> (2, 5) -> (2, 6)
-bool defpcomp(pll a, pll b) {
-    return a.first == b.first ? a.second < b.second : a.first < b.first;
-}
 // ----------- ACTUAL PROGRAM START -----------
 
 int main() {
     nonme;
     //setIO("cownomics");
-
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        cout << (n >= 5 ? "Alice" : "Bob") << fendl;
+    }
     return 0;
 }

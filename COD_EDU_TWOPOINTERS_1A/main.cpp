@@ -5,12 +5,10 @@
 
 #define fendl "\n"
 #define sz(x) (int) size(x)
-#define all(v) v.begin(), v.end()
 
 #define ll long long
 #define pll pair<long, long>
 #define vll vector<long long>
-#define vpll vector<pair<long long, long long> >
 
 #define um unordered_map
 
@@ -18,12 +16,6 @@
 
 #define forup(i, start, end) for(int i = start; i < end; ++i)
 #define ford(i, start, end) for(int i = start; i >= end; --i)
-
-#define fori(start, end) for(int i = start; i < end; ++i)
-#define forj(start, end) for(int j = start; j < end; ++i)
-#define forc(start, end) for(int c = start; c < end; ++c)
-
-#define tests int TEST_COUNT_; cin >> TEST_COUNT_; while(TEST_COUNT_--)
 
 #define nonme ios::sync_with_stdio(false); cin.tie(nullptr);
 
@@ -42,15 +34,30 @@ void setIO(string s) {
     freopen((s + ".out").c_str(), "w", stdout);
 }
 
-// sorts to (1, 3) -> (1, 4) -> (2, 5) -> (2, 6)
-bool defpcomp(pll a, pll b) {
-    return a.first == b.first ? a.second < b.second : a.first < b.first;
-}
 // ----------- ACTUAL PROGRAM START -----------
 
 int main() {
     nonme;
     //setIO("cownomics");
 
+    int n, m;
+    cin >> n >> m;
+    vector<int> a (n), b (m);
+    forup(i, 0, n) cin >> a[i];
+    forup(i, 0, m) cin >> b[i];
+    vector<int> c (n + m);
+    int c_i = 0, a_i = 0, b_i = 0;
+
+   while (c_i < n + m) {
+        if ((a_i == a.size() && b_i != b.size()) || a[a_i] >= b[b_i]) {
+            c[c_i] = b[b_i];
+            c_i++, b_i++;
+        }
+        else {
+            c[c_i] = a[a_i];
+            c_i++, a_i++;
+        }
+    }
+    forup(i, 0, n + m) cout << c[i] << " ";
     return 0;
 }

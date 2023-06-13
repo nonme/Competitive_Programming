@@ -37,6 +37,21 @@
 
 using namespace std;
 
+template<typename X, typename Y>
+ostream& operator<<(ostream& os, const pair<X, Y>& p) {
+    os << "(" << p.first << ", " << p.second << ")";
+    return os;
+}
+
+template<typename T>
+ostream& operator<<(ostream& os, const vector<T>& v) {
+    bool printIndex = true;
+    for (int i = 0; i < v.size(); ++i) {
+        os << (printIndex ? (to_string(i) + ": ") : "" ) << v[i] << (i < v.size() - 1 ? fendl : "");
+    }
+    return os;
+}
+
 void setIO(string s) {
     freopen((s + ".in").c_str(), "r", stdin);
     freopen((s + ".out").c_str(), "w", stdout);
@@ -46,11 +61,38 @@ void setIO(string s) {
 bool defpcomp(pll a, pll b) {
     return a.first == b.first ? a.second < b.second : a.first < b.first;
 }
+
 // ----------- ACTUAL PROGRAM START -----------
+
+bool intersect(pll a, pll b) {
+    return a.second >= b.first;
+}
 
 int main() {
     nonme;
     //setIO("cownomics");
-
+    tests {
+        int n;
+        cin >> n;
+        vpll a (n);
+        fori(0, n) {
+            cin >> a[i].first >> a[i].second;
+        }
+        sort(all(a), defpcomp);
+        vll dp (n + 1, 0);
+        dp[0] = 0;
+        dp[1] = 0;
+        fori(2, n + 1) {
+            if (intersect(a[i - 2], a[i - 1])) {
+                dp[i] = max(
+                            dp[i - 1],
+                            dp[i - 2] + 1);
+            } else {
+                dp[i] = dp[i - 1];
+            }
+        }
+        cout << dp << fendl;
+        cout << dp[n] << fendl;
+    }
     return 0;
 }

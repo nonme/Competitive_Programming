@@ -3,21 +3,14 @@
 
 #include <bits/stdc++.h>
 
-typedef long long ll;
-
-constexpr ll mod = 998244353;
-const int mod17 = 1000000007;
-const ll INF = mod * mod;
-
 #define fendl "\n"
 #define sz(x) (int) size(x)
 #define all(v) v.begin(), v.end()
 
-#define pll pair<ll, ll>
-#define vll vector<ll>
-#define vvll vector<vector<long long> >
-#define vvvll vector<vector<vector<ll> > >
-#define vpll vector<pair<ll, ll> >
+#define ll long long
+#define pll pair<long, long>
+#define vll vector<long long>
+#define vpll vector<pair<long long, long long> >
 
 #define um unordered_map
 
@@ -27,15 +20,8 @@ const ll INF = mod * mod;
 #define ford(i, start, end) for(int i = start; i >= end; --i)
 
 #define fori(start, end) for(int i = start; i < end; ++i)
-#define forj(start, end) for(int j = start; j < end; ++j)
+#define forj(start, end) for(int j = start; j < end; ++i)
 #define forc(start, end) for(int c = start; c < end; ++c)
-
-#define fordi(start, end) for(int i = end - 1; i >= 0; --i)
-#define fordj(start, end) for(int j = end - 1; j >= 0; --j)
-#define fordc(start, end) for(int c = end - 1; c >= 0; --c)
-
-#define read(ARRAY) for(int i__ = 0; i__ < ARRAY.size(); ++i__) cin >> ARRAY[i__];
-#define print(ARRAY) for(int i__ = 0; i__ < ARRAY.size(); ++i__) cout << ARRAY[i__] << " "; cout << fendl;
 
 #define tests int TEST_COUNT_; cin >> TEST_COUNT_; while(TEST_COUNT_--)
 
@@ -61,10 +47,54 @@ bool defpcomp(pll a, pll b) {
     return a.first == b.first ? a.second < b.second : a.first < b.first;
 }
 // ----------- ACTUAL PROGRAM START -----------
+ll make_1(int len) {
+    ll num = 1;
+    int i = 1;
+    while (i < len) {
+        num *= 10;
+        i++;
+    }
+    return num;
+}
+ll make_9(int len) {
+    ll num = 9;
+    int i = 1;
+    while (i < len) {
+        num = 10 * num + 9;
+        i++;
+    }
+    return num;
+}
 
 int main() {
     nonme;
     //setIO("cownomics");
+    tests {
+        ll a, b, c, k;
+        cin >> a >> b >> c >> k;
 
+        if (c < max(a, b) || c > max(a, b) + 1) cout << "-1" << fendl;
+        else {
+            ll min_a = make_1(a);
+            ll max_a = make_9(a);
+
+            ll min_b = make_1(b);
+            ll max_b = make_9(b);
+
+            ll min_c = make_1(c);
+            ll max_c = make_9(c);
+
+            ll counter = 0;
+            for (int i = min_a; i <= max_a; ++i) {
+                for (int j = min_b; j <= max_b; ++j) {
+                    ll sum = i + j;
+                    if (sum > max_c || sum < min_c) continue;
+
+                    counter++;
+                    cout << counter << ": " << i << " + " << j << " = " << sum << fendl;
+                }
+            }
+        }
+    }
     return 0;
 }

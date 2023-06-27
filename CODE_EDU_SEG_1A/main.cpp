@@ -62,9 +62,91 @@ bool defpcomp(pll a, pll b) {
 }
 // ----------- ACTUAL PROGRAM START -----------
 
+
+vll tree_;
+int treeSize_;
+
+int stop;
+
+void __bst__(const int node, const int l, const int r, const vll& v) {
+    if (stop++ == 100) return;
+    if (l == r)
+        tree_[node] = v[l];
+    else {
+        int mid = (l + r) / 2;
+        __bst__(2 * node, l, mid, v);
+        __bst__(2 * node + 1, mid + 1, r, v);
+
+        tree_[node] = tree_[2 * node] + tree_[2 * node + 1];
+    }
+}
+
+void __ust__(const int node, const int l, const int r, const int index, const ll val) {
+    if (l == r)
+        tree_[node] = val;
+    else {
+        int mid = (l + r) / 2;
+        if (index <= mid)
+            __ust__(2 * node, l, mid, index, val);
+        else
+            __ust__(2 * node + 1, mid + 1, r, index, val);
+
+        tree_[node] = tree_[2 * node] + tree_[2 * node + 1];
+    }
+}
+
+ll __gst__(const int node, const int l, const int r, const int tl, const int tr) {
+    //cout << node << " " << l << " " << r << " " << tl << " " << tr << fendl;
+    if (tl > r || tr < l) return 0;
+
+    if (tl >= l && tr <= r)
+        return tree_[node];
+    else {
+        int mid = (tl + tr) / 2;
+
+        ll left = __gst__(2 * node, l, r, tl, mid);
+        ll right = __gst__(2 * node + 1, l, r, mid + 1, tr);
+
+        return left + right;
+    }
+}
+
+void bst(const vll& v) {
+    treeSize_ = v.size();
+    tree_.assign(4 * treeSize_, 0);
+    stop = 0;
+
+    __bst__(1, 0, treeSize_ - 1, v);
+}
+
+void ust(const int i, const ll val) {
+    __ust__(1, 0, treeSize_ - 1, i, val);
+}
+
+ll gst(const int l, const int r) {
+    return __gst__(1, l, r, 0, treeSize_ - 1);
+}
+
 int main() {
     nonme;
     //setIO("cownomics");
 
+    int n, m;
+    cin >> n >> m;
+    vll a (n);
+    read(a);
+    //print(a);
+
+    bst(a);
+    //print(tree_);
+
+    fori(0, m) {
+        int t, f, s;
+        //cin >> t >> f >> s;
+        cin >> f >> s;
+        //if (t == 1) ust(f, s);
+        //else
+        cout << gst(f - 1, s - 1) << fendl;
+    }
     return 0;
 }

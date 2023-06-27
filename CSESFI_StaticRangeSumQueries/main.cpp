@@ -15,13 +15,16 @@ const ll INF = mod * mod;
 
 #define pll pair<ll, ll>
 #define vll vector<ll>
-#define vvll vector<vector<ll> >
+#define vvll vector<vector<long long> >
 #define vvvll vector<vector<vector<ll> > >
 #define vpll vector<pair<ll, ll> >
 
 #define um unordered_map
 
 #define debug(v) cout << "Line(" << __LINE__ << ") -> " << #v << " = " << (v) << endl;
+
+#define forup(i, start, end) for(int i = start; i < end; ++i)
+#define ford(i, start, end) for(int i = start; i >= end; --i)
 
 #define fori(start, end) for(int i = start; i < end; ++i)
 #define forj(start, end) for(int j = start; j < end; ++j)
@@ -59,47 +62,19 @@ bool defpcomp(pll a, pll b) {
 }
 // ----------- ACTUAL PROGRAM START -----------
 
-const vll nums {1, 10, 100, 1000, 10000};
-
 int main() {
     nonme;
     //setIO("cownomics");
-    int t;
-    cin >> t;
-    while (t--) {
-        string s;
-        cin >> s;
-        int n = int(s.size());
-        reverse(all(s));
-        vvvll dp (n + 1, vvll(5, vll(2, -INF)));
-
-        fori(0, 5) {
-            forj(0, 2) {
-                dp[0][i][k] = 0;
-            }
-        }
-        fori(1, n) {
-            ll p = s[i] - 'A';
-            ll num = nums[p];
-
-            forj(0, 5) {
-                ll posN = nums[j];
-                if (p > j) {
-                    dp[i][p][0] = dp[i - 1][j][0] + num;
-
-                    dp[i][p][1] = max(dp[i - 1][j][1],
-                                      dp[i - 1][j][0] + num);
-
-                } else {
-                    dp[i][j][0] = dp[i - 1][j][0] - num;
-                }
-            }
-        }
+    int n, q;
+    cin >> n >> q;
+    vector<ll> a(n);
+    read(a);
+    vector<ll> sum(n + 1, 0);
+    fori(1, n + 1) sum[i] = sum[i - 1] + a[i -1];
+    while(q--) {
+        int l, r;
+        cin >> l >> r;
+        cout << sum[r] - sum[l - 1] << fendl;
     }
     return 0;
 }
-/*
-2
-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDE
-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDEE
-*/

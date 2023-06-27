@@ -15,13 +15,16 @@ const ll INF = mod * mod;
 
 #define pll pair<ll, ll>
 #define vll vector<ll>
-#define vvll vector<vector<ll> >
+#define vvll vector<vector<long long> >
 #define vvvll vector<vector<vector<ll> > >
 #define vpll vector<pair<ll, ll> >
 
 #define um unordered_map
 
 #define debug(v) cout << "Line(" << __LINE__ << ") -> " << #v << " = " << (v) << endl;
+
+#define forup(i, start, end) for(int i = start; i < end; ++i)
+#define ford(i, start, end) for(int i = start; i >= end; --i)
 
 #define fori(start, end) for(int i = start; i < end; ++i)
 #define forj(start, end) for(int j = start; j < end; ++j)
@@ -59,47 +62,85 @@ bool defpcomp(pll a, pll b) {
 }
 // ----------- ACTUAL PROGRAM START -----------
 
-const vll nums {1, 10, 100, 1000, 10000};
+
+vll tree_;
+int treeSize_;
+
+void __bst__(const int node, const int l, const int r, const vll& v) {
+    if (l == r)
+        tree_[node] = v[l];
+    else {
+        int mid = (l + r) / 2;
+        __bst__(2 * node, l, mid, v);
+        __bst__(2 * node + 1, mid + 1, r, v);
+
+        tree_[node] = tree_[2 * node] + tree_[2 * node + 1];
+    }
+}
+
+void __ust__(const int node, const int l, const int r, const int index, const ll val) {
+    if (l == r)
+        tree_[node] = val;
+    else {
+        int mid = (l + r) / 2;
+        if (index <= mid)
+            __ust__(2 * node, l, mid, index, val);
+        else
+            __ust__(2 * node + 1, mid + 1, r, index, val);
+
+        tree_[node] = tree_[2 * node] + tree_[2 * node + 1];
+    }
+}
+
+ll __gst__(const int node, const int l, const int r, const int tl, const int tr) {
+    //cout << node << " " << l << " " << r << " " << tl << " " << tr << fendl;
+    if (tl > r || tr < l) return 0;
+
+    if (tl >= l && tr <= r)
+        return tree_[node];
+    else {
+        int mid = (tl + tr) / 2;
+
+        ll left = __gst__(2 * node, l, r, tl, mid);
+        ll right = __gst__(2 * node + 1, l, r, mid + 1, tr);
+
+        return left + right;
+    }
+}
+
+void bst(const vll& v) {
+    treeSize_ = v.size();
+    tree_.assign(4 * treeSize_, 0);
+
+    __bst__(1, 0, treeSize_, v);
+}
+
+void ust(const int i, const ll val) {
+    __ust__(1, 0, treeSize_, i, val);
+}
+
+ll gst(const int l, const int r) {
+    return __gst__(1, l, r, 0, treeSize_);
+}
 
 int main() {
     nonme;
     //setIO("cownomics");
-    int t;
-    cin >> t;
-    while (t--) {
-        string s;
-        cin >> s;
-        int n = int(s.size());
-        reverse(all(s));
-        vvvll dp (n + 1, vvll(5, vll(2, -INF)));
 
-        fori(0, 5) {
-            forj(0, 2) {
-                dp[0][i][k] = 0;
-            }
-        }
-        fori(1, n) {
-            ll p = s[i] - 'A';
-            ll num = nums[p];
+    int n, m;
+    cin >> n >> m;
+    vll a (n);
+    read(a);
+    //print(a);
 
-            forj(0, 5) {
-                ll posN = nums[j];
-                if (p > j) {
-                    dp[i][p][0] = dp[i - 1][j][0] + num;
+    bst(a);
+    //print(tree_);
 
-                    dp[i][p][1] = max(dp[i - 1][j][1],
-                                      dp[i - 1][j][0] + num);
-
-                } else {
-                    dp[i][j][0] = dp[i - 1][j][0] - num;
-                }
-            }
-        }
+    fori(0, m) {
+        int t, f, s;
+        cin >> t >> f >> s;
+        if (t == 1) ust(f - 1, s);
+        else cout << gst(f - 1, s - 1) << fendl;
     }
     return 0;
 }
-/*
-2
-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDE
-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDEE
-*/

@@ -51,12 +51,45 @@ bool defpcomp(pll a, pll b) {
 int main() {
     nonme;
     //setIO("cownomics");
-    int t;
-    cin >> t;
-    while (t--) {
-        string s1, s2;
-        cin >> s1 >> s2;
+    tests {
+        int n, m;
+        cin >> n >> m;
+        vector<pll> h (n);
 
+        int smallest = 1e9+7;
+        int smallest_index = -1;
+        fori(0, n) {
+            cin >> h[i].first >> h[i].second;
+
+
+        }
+        //sort(h.begin(), h.end(), defpcomp);
+        fori(0, n) {
+            if (h[i].second - h[i].first < smallest) {
+                smallest = h[i].second - h[i].first;
+                smallest_index = i;
+            }
+        }
+        int answer = 0;
+
+        cout << smallest << " " << smallest_index << fendl;
+        fori (0, n) {
+            if (i == smallest_index) continue;
+
+            int pos_answer = h[i].second - h[i].first + 1;
+            if (h[i].first >= h[smallest_index].first && h[i].second <= h[smallest_index].second) {
+                // Impossible case, wasting time
+            } else if (h[i].first <= h[smallest_index].second && h[i].second >= h[smallest_index].second) {
+                // intersects in right part
+                pos_answer -= abs(h[smallest_index].second - h[i].first);
+            } else if (h[i].second >= h[smallest_index].first && h[i].first <= h[smallest_index].first) {
+                pos_answer -= abs(h[smallest_index].first - h[i].second);
+
+            }
+            answer = max(answer, pos_answer);
+        }
+
+        cout << answer + (h[smallest_index].second - h[smallest_index].first + 1) << fendl;
     }
     return 0;
 }

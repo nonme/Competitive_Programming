@@ -1,27 +1,88 @@
+//#pragma GCC optimize("O3","unroll-loops")
+//#pragma GCC target ("avx2")
+
 #include <bits/stdc++.h>
-using namespace std;
+
+#define fendl "\n"
+#define sz(x) (int) size(x)
+#define all(v) v.begin(), v.end()
+
 #define ll long long
+#define pll pair<long, long>
+#define vll vector<long long>
+#define vpll vector<pair<long long, long long> >
 
-int main(){
-    int t;
-    cin>>t;
-    while(t--){
-        int n,c=0;
-        cin>>n;
-        string s;
-        cin>>s;
+#define um unordered_map
 
-        char curr=s[0],ans[n];
-        for(int i=1;i<n;i++){
-            if(curr==s[i]){
-                ans[c++]=curr;
-                curr=s[++i];
-            }
+#define debug(v) cout << "Line(" << __LINE__ << ") -> " << #v << " = " << (v) << endl;
+
+#define forup(i, start, end) for(int i = start; i < end; ++i)
+#define ford(i, start, end) for(int i = start; i >= end; --i)
+
+#define fori(start, end) for(int i = start; i < end; ++i)
+#define forj(start, end) for(int j = start; j < end; ++i)
+#define forc(start, end) for(int c = start; c < end; ++c)
+
+#define tests int TEST_COUNT_; cin >> TEST_COUNT_; while(TEST_COUNT_--)
+
+#define nonme ios::sync_with_stdio(false); cin.tie(nullptr);
+
+/*
+    Useful links
+    https://codeforces.com/blog/entry/15547 Compiler options
+    -Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -Wlogical-op
+    C:\Program Files\CodeBlocks\share\CodeBlocks\templates\wizard\console\cpp\main.cpp <- to change this code
+
+*/
+
+using namespace std;
+
+void setIO(string s) {
+    freopen((s + ".in").c_str(), "r", stdin);
+    freopen((s + ".out").c_str(), "w", stdout);
+}
+
+// sorts to (1, 3) -> (1, 4) -> (2, 5) -> (2, 6)
+bool defpcomp(pll a, pll b) {
+    return a.first == b.first ? a.second < b.second : a.first < b.first;
+}
+// ----------- ACTUAL PROGRAM START -----------
+
+int main() {
+    nonme;
+    //setIO("cownomics");
+    vector<int> results (1000, 0);
+    cin >> results[0];
+
+    unordered_map<int, int> pos;
+    pos[results[0]] = 0;
+    int maxNum = 0;
+    for (int i = 1; i < 1000; ++i) {
+        cout << "+ 1" << endl;
+        cin >> results[i];
+
+        pos[results[i]] = i;
+        maxNum = max(maxNum, results[i]);
+        if (results[i] == results[0]) {
+            cout << "! " << i << endl;
+            return 0;
         }
-        for(int i=0;i<c;i++){
-            cout<<ans[i];
-        }
-        cout<<endl;
-
     }
+
+    int tries = 0;
+    while(true) {
+        cout << "+ 1000" << endl;
+        tries++;
+
+        int n;
+        cin >> n;
+
+        if (pos.count(n) > 0) {
+            int index = pos[n];
+
+            cout << "! " << 1000 * (tries + 1) - (index + 1);
+            return 0;
+        }
+    }
+    return 0;
 }

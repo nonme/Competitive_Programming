@@ -15,13 +15,16 @@ const ll INF = mod * mod;
 
 #define pll pair<ll, ll>
 #define vll vector<ll>
-#define vvll vector<vector<ll> >
+#define vvll vector<vector<long long> >
 #define vvvll vector<vector<vector<ll> > >
 #define vpll vector<pair<ll, ll> >
 
 #define um unordered_map
 
 #define debug(v) cout << "Line(" << __LINE__ << ") -> " << #v << " = " << (v) << endl;
+
+#define forup(i, start, end) for(int i = start; i < end; ++i)
+#define ford(i, start, end) for(int i = start; i >= end; --i)
 
 #define fori(start, end) for(int i = start; i < end; ++i)
 #define forj(start, end) for(int j = start; j < end; ++j)
@@ -59,47 +62,63 @@ bool defpcomp(pll a, pll b) {
 }
 // ----------- ACTUAL PROGRAM START -----------
 
-const vll nums {1, 10, 100, 1000, 10000};
+vector<ll> tree;
+void bst(int node, int l, int r, const vll& a) {
+    if (l == r)
+        tree[node] = a[l];
+    else {
+        int m = (r + l) / 2;
+        bst(2 * node, l, m, a);
+        bst(2 * node + 1, m + 1, r, a);
+
+        tree[node] = min(tree[2 * node], tree[2 * node + 1]);
+    }
+}
+void bst(const vll& a) {
+    tree.assign(4 * a.size(), INF);
+    bst(1, 0, a.size(), a);
+}
+
+void update(int node, int l, int r, int index, ll value) {
+    if (l == r)
+        tree[node] = value;
+    else {
+        int m = (r + l) / 2;
+        if (index <= m) update(2 * node, l, m, index, value);
+        else update(2 * node + 1, m + 1, r, index, value);
+
+        tree[node] = min(tree[2 * node], tree[2 * node + 1]);
+    }
+}
+
+ll get(int node, int l, int r, int tl, int tr) {
+    if (tl > r || tr < l) return INF;
+    if (l <= tl && tr <= r) return tree[node];
+
+    int m = (tl + tr) / 2;
+
+    ll left_val = get(2 * node, l, r, tl, m);
+    ll right_val = get(2 * node + 1, l, r, m + 1, tr);
+
+    return min(left_val, right_val);
+}
 
 int main() {
     nonme;
     //setIO("cownomics");
-    int t;
-    cin >> t;
-    while (t--) {
-        string s;
-        cin >> s;
-        int n = int(s.size());
-        reverse(all(s));
-        vvvll dp (n + 1, vvll(5, vll(2, -INF)));
 
-        fori(0, 5) {
-            forj(0, 2) {
-                dp[0][i][k] = 0;
-            }
-        }
-        fori(1, n) {
-            ll p = s[i] - 'A';
-            ll num = nums[p];
+    int n, q;
+    cin >> n >> q;
+    vector<ll> a (n);
+    read(a);
+    bst(a);
 
-            forj(0, 5) {
-                ll posN = nums[j];
-                if (p > j) {
-                    dp[i][p][0] = dp[i - 1][j][0] + num;
-
-                    dp[i][p][1] = max(dp[i - 1][j][1],
-                                      dp[i - 1][j][0] + num);
-
-                } else {
-                    dp[i][j][0] = dp[i - 1][j][0] - num;
-                }
-            }
-        }
+    while(q--) {
+        int t, l, r;
+        cin >> t >> l >> r;
+        if (t == 1)
+            update(1, 0, n, l - 1, r);
+        else cout << get(1, l - 1, r - 1, 0, n) << fendl;
     }
     return 0;
 }
-/*
-2
-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDE
-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDEE
-*/

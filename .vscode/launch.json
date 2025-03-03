@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug with gdb",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/${fileBasenameNoExtension}", // Путь к скомпилированному файлу
+      "args": ["<", "input.txt"], // Чтение ввода из input.txt
+      "stopAtEntry": false, // Не останавливаться на входе
+      "cwd": "${fileDirname}", // Рабочая директория
+      "environment": [],
+      "externalConsole": false, // Использовать встроенный терминал
+      "MIMode": "gdb", // Использовать gdb
+      "miDebuggerPath": "/usr/bin/gdb", // Путь к gdb на Linux
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build for debug" // Выполнить сборку перед отладкой
+    }
+  ]
+}

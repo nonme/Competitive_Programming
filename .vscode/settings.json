@@ -1,0 +1,15 @@
+{
+  "files.associations": {
+    "*.cpp": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "vector": "cpp",
+    "iosfwd": "cpp",
+    "*.tcc": "cpp",
+    "iostream": "cpp",
+    "chrono": "cpp",
+    "span": "cpp"
+  },
+  "editor.formatOnSave": true,
+  "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4 }"
+}
